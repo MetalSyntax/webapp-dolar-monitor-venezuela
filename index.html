@@ -4,41 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Dólar hoy en Venezuela</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
+        <img src="https://liorcosmetics.com/images/logo.png" alt="Lior Cosmetics Logo">
         <h1>Dólar hoy en Venezuela</h1>
       </header>
     <main class="container">
         <table class="data-table">
-            <caption>Precio del dólar en distintas entidades de Venezuela</caption>
+            <caption class="subtitle">Precio del dólar en distintas ciudades de Venezuela</caption>
+            <caption>USD/VES - Dolar/Bolivar venezolano</caption>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Entidad</th>
                     <th>Precio</th>
                     <th>Actualizado al</th>
-                    <th>Variacion</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="data-row" id="dolar-bcv">
+                    <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Banco_Central_de_Venezuela_logo.svg/100px-Banco_Central_de_Venezuela_logo.svg.png" alt="BCV Logo"></td>
                     <td class="data-title"></td>
                     <td class="data-value"></td>
                     <td class="updated-date"></td>
                 </tr>
                 <tr class="data-row" id="monitor-dolar-vzla">
+                    <td><img src="https://yt3.googleusercontent.com/ytc/AGIKgqOHiHh4H8qdoJ0BHiGJqmF6dJ4Eye5m5FNXIl5GYQ=s900-c-k-c0x00ffffff-no-rj" alt="Dolar Monitor Logo"></td>
                     <td class="data-title"></td>
                     <td class="data-value"></td>
                     <td class="updated-date"></td>
-                    <td class="data-variation"></td>
                 </tr>
             </tbody>
         </table>
+        <section class="dolar-calc">
+            <p class="varation">% Variacion: <span class="data-variation"></span></p>
+            <p class="diferential">Diferencial: <span class="data-diferential"></span></p>
+        </section>
     </main>
     <footer class="footer">
-        <p class="footer-text">&copy; 2023 Monitor Dolar - Desarrollado por <a href="#">MetalSyntax</a></p>
+        <p class="footer-text">Copyright &copy; 2023 Monitor Dolar - Desarrollado por <a href="#">MetalSyntax</a> - Todos los Derechos Reservados</p>
       </footer>
     <script src="script.js"></script>
 </body>
