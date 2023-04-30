@@ -14,7 +14,7 @@ header {
     background: #678a7c;
     padding: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: baseline;
     align-items: center;
     flex-wrap: wrap;
     color: #fff;
@@ -72,6 +72,12 @@ td {
     font-size: 20px;
 }
 
+td:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .data-value {
     text-align: right;
     font-size: 23px;
@@ -122,7 +128,6 @@ td {
     text-decoration: underline;
 }
 
-
 /* Estilos para dispositivos con un ancho menor a 1024px */
 @media (max-width: 1023px) {
 
@@ -140,7 +145,7 @@ td {
     }
 
     th {
-        font-size: 20px;
+        font-size: 1.5rem;
     }
 
     header img {
@@ -175,7 +180,7 @@ td {
 
     .dolar-calc .varation, 
     .dolar-calc .diferential {
-        font-size: 16px;
+        font-size: 0.9rem;
     }
 
     .container {
@@ -187,7 +192,7 @@ td {
     }
 
     th {
-        font-size: 16px;
+        font-size: 1.1rem;
     }
 
     .subtitle {
@@ -203,7 +208,7 @@ td {
     }
 
     .data-row td {
-        font-size: 1rem;
+        font-size: 0.75rem;
         padding: 0.5rem;
     }
 
@@ -213,5 +218,11 @@ td {
 
     .footer p {
         font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .img-title{
+        display: none;
     }
 }
