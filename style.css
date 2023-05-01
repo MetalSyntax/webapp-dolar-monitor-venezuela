@@ -73,7 +73,7 @@ td {
 }
 
 td:nth-child(2) {
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     justify-content: center;
 }
@@ -99,6 +99,11 @@ td:nth-child(2) {
 
 .dolar-calc .varation,
 .dolar-calc .diferential {
+    font-size: 20px;
+}
+
+#spinner {
+    text-align: center;
     font-size: 20px;
 }
 
@@ -172,6 +177,14 @@ td:nth-child(2) {
 
 /* Estilos para dispositivos con un ancho menor a 768px */
 @media (max-width: 767px) {
+
+    header img {
+        width: 75px;
+    }
+
+    td:nth-child(2) {
+        display: flex;
+    }
 
     .data-table th:first-child,
     .data-table td:first-child {

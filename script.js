@@ -2,6 +2,14 @@ const dolarToday = document.getElementById("dolar-bcv");
 const monitorDolarVzla = document.getElementById("monitor-dolar-vzla");
 const dataVariation = document.querySelector(".data-variation");
 const dataDiferential = document.querySelector(".data-diferential");
+const spinner = document.getElementById("spinner");
+const table = document.querySelector("table")
+const section = document.querySelector("section")
+
+table.style.display = "none";
+section.style.display = "none";
+spinner.style.display = "block";
+
 
 fetch("https://venecodollar.vercel.app/api/v1/dollar")
   .then(response => response.json())
@@ -12,8 +20,10 @@ fetch("https://venecodollar.vercel.app/api/v1/dollar")
       const dollar = entity.info.dollar;
       const updatedDate = entity.info.updatedDate;
       const variation = (data.Data.entities[1].info.dollar/data.Data.entities[0].info.dollar-1)*100;
-      const diferential = data.Data.entities[1].info.dollar/data.Data.entities[0].info.dollar;
-
+      const diferential = data.Data.entities[1].info.dollar-data.Data.entities[0].info.dollar;
+      spinner.style.display = "none";
+      table.style.display = "table"
+      section.style.display = "block"
       let imageSrc = "";
       if (title === "BCV (Oficial)") {
         imageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Banco_Central_de_Venezuela_logo.svg/100px-Banco_Central_de_Venezuela_logo.svg.png";
@@ -28,13 +38,15 @@ fetch("https://venecodollar.vercel.app/api/v1/dollar")
       }
 
       dataVariation.textContent = `${Number(variation.toFixed(2))}%`;
-      dataDiferential.textContent = Number(diferential.toFixed(2));
+      dataDiferential.textContent = `${Number(diferential.toFixed(2))} VES`;
 
       if (variation > 0) {
         dataVariation.style.color = "green";
       } else {
         dataVariation.style.color = "red";
       }
+
+      spinner.style.display = "none";
     });
 })
 .catch(error => console.log(error));
