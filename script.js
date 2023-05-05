@@ -26,12 +26,12 @@ fetch("https://venecodollar.vercel.app/api/v1/dollar")
       section.style.display = "block"
       let imageSrc = "";
       if (title === "BCV (Oficial)") {
-        imageSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Banco_Central_de_Venezuela_logo.svg/100px-Banco_Central_de_Venezuela_logo.svg.png";
+        imageSrc = "images/dolar-bcv.png";
         dolarToday.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="Banco Central de Venezuela Logo" style="width: 20px; margin-right: 5px;">${title}`;
         dolarToday.querySelector(".data-value").textContent = `${dollar} VES`;
         dolarToday.querySelector(".updated-date").textContent = updatedDate;
       } else if (title === "@EnParaleloVzla3") {
-        imageSrc = "https://yt3.googleusercontent.com/ytc/AGIKgqOHiHh4H8qdoJ0BHiGJqmF6dJ4Eye5m5FNXIl5GYQ=s900-c-k-c0x00ffffff-no-rj";
+        imageSrc = "images/dolar-monitor.jpeg";
         monitorDolarVzla.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="Monitor Dolar Vzla Logo" style="width: 20px; margin-right: 5px;">${title}`;
         monitorDolarVzla.querySelector(".data-value").textContent = `${dollar} VES`;
         monitorDolarVzla.querySelector(".updated-date").textContent = updatedDate;
