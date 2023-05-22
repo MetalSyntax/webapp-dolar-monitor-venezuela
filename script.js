@@ -28,12 +28,12 @@ fetch("https://venecodollar.vercel.app/api/v1/dollar")
       if (title === "BCV (Oficial)") {
         imageSrc = "images/dolar-bcv.png";
         dolarToday.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="Banco Central de Venezuela Logo" style="width: 20px; margin-right: 5px;">${title}`;
-        dolarToday.querySelector(".data-value").textContent = `${dollar} VES`;
+        dolarToday.querySelector(".data-value").textContent = `${Number(dollar.toFixed(2))} VES`;
         dolarToday.querySelector(".updated-date").textContent = updatedDate;
       } else if (title === "@EnParaleloVzla3") {
         imageSrc = "images/dolar-monitor.jpeg";
         monitorDolarVzla.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="Monitor Dolar Vzla Logo" style="width: 20px; margin-right: 5px;">${title}`;
-        monitorDolarVzla.querySelector(".data-value").textContent = `${dollar} VES`;
+        monitorDolarVzla.querySelector(".data-value").textContent = `${Number(dollar.toFixed(2))} VES`;
         monitorDolarVzla.querySelector(".updated-date").textContent = updatedDate;
       }
 
