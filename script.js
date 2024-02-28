@@ -10,7 +10,7 @@ table.style.display = "none";
 section.style.display = "none";
 spinner.style.display = "block";
 
-fetch("https://venecodollar.vercel.app/api/v1/dollar")
+fetch("https://venecodollar.vercel.app/api/v2/dollar")
   .then(response => response.json())
   .then(data => {
     const entities = data.Data.entities;

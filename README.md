@@ -36,7 +36,7 @@ Contributions to this project are welcome. To contribute, follow these steps:
 
 ## Credits
 
-This project was created by MetalSyntax. Data is retrieved from the [VenecoDollar API](https://venecodollar.vercel.app/).
+This project was created by MetalSyntax. Data is retrieved from the [VenecoDollar API](https://github.com/gustavoerivero/venecodollar/).
 
 ## License
 
