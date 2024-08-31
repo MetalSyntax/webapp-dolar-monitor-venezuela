@@ -1,52 +1,46 @@
-const dolarBCV = document.getElementById("dolar-bcv");
-const monitorDolarVzla = document.getElementById("monitor-dolar-vzla");
-const dataVariation = document.querySelector(".data-variation");
-const dataDiferential = document.querySelector(".data-diferential");
-const spinner = document.getElementById("spinner");
-const table = document.querySelector("table")
-const section = document.querySelector("section")
+const elements = {
+  dolarBCV: document.getElementById("dolar-bcv"),
+  monitorDolarVzla: document.getElementById("monitor-dolar-vzla"),
+  dataVariation: document.querySelector(".data-variation"),
+  dataDiferential: document.querySelector(".data-diferential"),
+  spinner: document.getElementById("spinner"),
+  table: document.querySelector("table"),
+  section: document.querySelector("section")
+};
 
-table.style.display = "none";
-section.style.display = "none";
-spinner.style.display = "block";
+function toggleDisplay(show, ...elements) {
+  elements.forEach(el => el.style.display = show ? (el.tagName === 'TABLE' ? 'table' : 'block') : 'none');
+}
+
+function updateElement(element, title, dollar, updatedDate, imageSrc) {
+  element.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="${title} Logo" style="width: 20px; margin-right: 5px;">${title}`;
+  element.querySelector(".data-value").textContent = `${Number(dollar.toFixed(2))} VES`;
+  element.querySelector(".updated-date").textContent = updatedDate;
+}
+
+function updateVariationData(variation, diferential) {
+  elements.dataVariation.textContent = `${Number(variation.toFixed(2))}%`;
+  elements.dataDiferential.textContent = `${Number(diferential.toFixed(2))} VES`;
+  elements.dataVariation.style.color = variation > 0 ? "green" : "red";
+}
+
+toggleDisplay(false, elements.table, elements.section);
+toggleDisplay(true, elements.spinner);
 
 fetch("https://venecodollar.vercel.app/api/v2/dollar")
   .then(response => response.json())
   .then(data => {
     const entities = data.Data.entities;
-    entities.forEach(entity => {
-      console.log(entity)
-      const title = entity.info.title;
-      const dollar = entity.info.dollar;
-      const updatedDate = entity.info.updatedDate;
-      const variation = (data.Data.entities[1].info.dollar/data.Data.entities[0].info.dollar-1)*100;
-      const diferential = data.Data.entities[1].info.dollar-data.Data.entities[0].info.dollar;
-      spinner.style.display = "none";
-      table.style.display = "table"
-      section.style.display = "block"
-      let imageSrc = "";
-      if (title === "Dólar BCV") {
-        imageSrc = "images/dolar-bcv.png";
-        dolarBCV.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="Banco Central de Venezuela Logo" style="width: 20px; margin-right: 5px;">${title}`;
-        dolarBCV.querySelector(".data-value").textContent = `${dollar} VES`;
-        dolarBCV.querySelector(".updated-date").textContent = updatedDate;
-      } else if (title === "Dólar Monitor") {
-        imageSrc = "images/dolar-monitor.jpeg";
-        monitorDolarVzla.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="Monitor Dolar Vzla Logo" style="width: 20px; margin-right: 5px;">${title}`;
-        monitorDolarVzla.querySelector(".data-value").textContent = `${Number(dollar.toFixed(2))} VES`;
-        monitorDolarVzla.querySelector(".updated-date").textContent = updatedDate;
-      }
+    const [bcv, _, monitor] = entities;
+    
+    const variation = (bcv.info.dollar / monitor.info.dollar - 1) * 100;
+    const diferential = bcv.info.dollar - monitor.info.dollar;
 
-      dataVariation.textContent = `${Number(variation.toFixed(2))}%`;
-      dataDiferential.textContent = `${Number(diferential.toFixed(2))} VES`;
+    updateElement(elements.dolarBCV, "Dólar BCV", bcv.info.dollar, bcv.info.updatedDate, "images/dolar-bcv.png");
+    updateElement(elements.monitorDolarVzla, "Dólar Monitor", monitor.info.dollar, monitor.info.updatedDate, "images/dolar-monitor.jpeg");
+    updateVariationData(variation, diferential);
 
-      if (variation > 0) {
-        dataVariation.style.color = "green";
-      } else {
-        dataVariation.style.color = "red";
-      }
-
-      spinner.style.display = "none";
-    });
-})
-.catch(error => console.log(error));
+    toggleDisplay(false, elements.spinner);
+    toggleDisplay(true, elements.table, elements.section);
+  })
+  .catch(error => console.error("Error fetching data:", error));
