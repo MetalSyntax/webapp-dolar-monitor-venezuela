@@ -31,10 +31,10 @@ fetch("https://venecodollar.vercel.app/api/v2/dollar")
   .then(response => response.json())
   .then(data => {
     const entities = data.Data.entities;
-    const [bcv, _, monitor] = entities;
+    const [monitor, _, bcv] = entities;
     
-    const variation = (bcv.info.dollar / monitor.info.dollar - 1) * 100;
-    const diferential = bcv.info.dollar - monitor.info.dollar;
+    const variation = (monitor.info.dollar / bcv.info.dollar - 1) * 100;
+    const diferential = monitor.info.dollar - bcv.info.dollar;
 
     updateElement(elements.dolarBCV, "Dólar BCV", bcv.info.dollar, bcv.info.updatedDate, "images/dolar-bcv.png");
     updateElement(elements.monitorDolarVzla, "Dólar Monitor", monitor.info.dollar, monitor.info.updatedDate, "images/dolar-monitor.jpeg");
