@@ -12,35 +12,62 @@ function toggleDisplay(show, ...elements) {
   elements.forEach(el => el.style.display = show ? (el.tagName === 'TABLE' ? 'table' : 'block') : 'none');
 }
 
-function updateElement(element, title, dollar, updatedDate, imageSrc) {
-  element.querySelector(".data-title").innerHTML = `<img class="img-title" src="${imageSrc}" alt="${title} Logo" style="width: 20px; margin-right: 5px;">${title}`;
-  element.querySelector(".data-value").textContent = `${Number(dollar.toFixed(2))} VES`;
-  element.querySelector(".updated-date").textContent = updatedDate;
+function updateElement(element, data) {
+  element.querySelector(".data-title").innerHTML = `<img class="img-title" src="${data.image}" alt="${data.title} Logo" style="width: 20px; margin-right: 5px;">${data.title}`;
+  element.querySelector(".data-value").textContent = `${data.price.toFixed(2)} VES`;
+  element.querySelector(".updated-date").textContent = data.last_update;
 }
 
-function updateVariationData(variation, diferential) {
-  elements.dataVariation.textContent = `${Number(variation.toFixed(2))}%`;
-  elements.dataDiferential.textContent = `${Number(diferential.toFixed(2))} VES`;
+function updateVariationData(bcvPrice, monitorPrice) {
+  const variation = ((monitorPrice / bcvPrice) - 1) * 100;
+  const diferential = monitorPrice - bcvPrice;
+  
+  elements.dataVariation.textContent = `${variation.toFixed(2)}%`;
+  elements.dataDiferential.textContent = `${diferential.toFixed(2)} VES`;
   elements.dataVariation.style.color = variation > 0 ? "green" : "red";
+  
+  console.log(`Variation: ${variation.toFixed(2)}%, Differential: ${diferential.toFixed(2)} VES`);
 }
 
-toggleDisplay(false, elements.table, elements.section);
-toggleDisplay(true, elements.spinner);
+function fetchDollarData() {
+  toggleDisplay(false, elements.table, elements.section);
+  toggleDisplay(true, elements.spinner);
 
-fetch("https://venecodollar.vercel.app/api/v2/dollar")
-  .then(response => response.json())
-  .then(data => {
-    const entities = data.Data.entities;
-    const [monitor, _, bcv] = entities;
-    
-    const variation = (monitor.info.dollar / bcv.info.dollar - 1) * 100;
-    const diferential = monitor.info.dollar - bcv.info.dollar;
+  console.log("Fetching data from API...");
 
-    updateElement(elements.dolarBCV, "Dólar BCV", bcv.info.dollar, bcv.info.updatedDate, "images/dolar-bcv.png");
-    updateElement(elements.monitorDolarVzla, "Dólar Monitor", monitor.info.dollar, monitor.info.updatedDate, "images/dolar-monitor.jpeg");
-    updateVariationData(variation, diferential);
+  fetch("https://pydolarve.org/api/v1/dollar")
+    .then(response => response.json())
+    .then(data => {
+      console.log("Raw API response:", data);
 
-    toggleDisplay(false, elements.spinner);
-    toggleDisplay(true, elements.table, elements.section);
-  })
-  .catch(error => console.error("Error fetching data:", error));
+      if (!data.monitors || !data.monitors.bcv || !data.monitors.enparalelovzla) {
+        throw new Error("Expected data structure not found in API response");
+      }
+
+      const bcv = data.monitors.bcv;
+      const monitor = data.monitors.enparalelovzla;
+
+      console.log("BCV data:", bcv);
+      console.log("Monitor data:", monitor);
+
+      updateElement(elements.dolarBCV, bcv);
+      updateElement(elements.monitorDolarVzla, monitor);
+      updateVariationData(bcv.price, monitor.price);
+
+      toggleDisplay(false, elements.spinner);
+      toggleDisplay(true, elements.table, elements.section);
+
+      console.log("Data update completed successfully");
+    })
+    .catch(error => {
+      console.error("Error fetching data:", error);
+      toggleDisplay(false, elements.spinner);
+      alert("Hubo un error al obtener los datos. Por favor, intente nuevamente más tarde.");
+    });
+}
+
+// Llamar a la función para obtener los datos
+fetchDollarData();
+
+// Actualizar los datos cada 5 minutos (300000 ms)
+setInterval(fetchDollarData, 300000);
